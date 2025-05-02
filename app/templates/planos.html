@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+     {% block conteudo %}
+     <h1 class="text-4xl font-bold text-center mb-6">Nossos Planos</h1>
+     <div class="grid grid-cols-3 gap-6">
+         <div class="bg-blue-800 p-6 rounded-lg">
+             <h2 class="text-2xl font-bold">Mensal</h2>
+             <p>R$ 100,00</p>
+             <form method="POST" action="{{ url_for('pagar') }}">
+                 <input type="hidden" name="tipo_plano" value="mensal">
+                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Escolher</button>
+             </form>
+         </div>
+         <div class="bg-blue-800 p-6 rounded-lg">
+             <h2 class="text-2xl font-bold">Semestral</h2>
+             <p>R$ 500,00</p>
+             <form method="POST" action="{{ url_for('pagar') }}">
+                 <input type="hidden" name="tipo_plano" value="semestral">
+                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Escolher</button>
+             </form>
+         </div>
+         <div class="bg-blue-800 p-6 rounded-lg">
+             <h2 class="text-2xl font-bold">Anual</h2>
+             <p>R$ 900,00</p>
+             <form method="POST" action="{{ url_for('pagar') }}">
+                 <input type="hidden" name="tipo_plano" value="anual">
+                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Escolher</button>
+             </form>
+         </div>
+     </div>
+     {% endblock %}

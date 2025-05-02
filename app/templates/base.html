@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+     <html lang="pt-BR">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>KuberaTrades</title>
+         <script src="https://cdn.tailwindcss.com"></script>
+         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+     </head>
+     <body class="bg-gray-900 text-white">
+         <canvas id="candlestickFundo" class="fixed inset-0 z-0 opacity-20"></canvas>
+         <nav class="bg-blue-800 p-4 z-10 relative">
+             <ul class="flex space-x-6 justify-center">
+                 <li><a href="/" class="hover:text-blue-300">Início</a></li>
+                 <li><a href="/quem_somos" class="hover:text-blue-300">Quem Somos</a></li>
+                 <li><a href="/planos" class="hover:text-blue-300">Planos</a></li>
+                 {% if session.usuario_id %}
+                     <li><a href="/dashboard" class="hover:text-blue-300">Dashboard</a></li>
+                     <li><a href="/logout" class="hover:text-blue-300">Sair</a></li>
+                 {% else %}
+                     <li><a href="/login" class="hover:text-blue-300">Login</a></li>
+                     <li><a href="/cadastro" class="hover:text-blue-300">Cadastro</a></li>
+                 {% endif %}
+             </ul>
+         </nav>
+         <main class="container mx-auto p-6 z-10 relative">
+             {% block conteudo %}{% endblock %}
+         </main>
+         <script src="{{ url_for('static', filename='js/candlestick.js') }}"></script>
+     </body>
+     </html>
