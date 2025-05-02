@@ -1,32 +1,67 @@
 <!DOCTYPE html>
-     <html lang="pt-BR">
-     <head>
-         <meta charset="UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <title>KuberaTrades</title>
-         <script src="https://cdn.tailwindcss.com"></script>
-         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
-     </head>
-     <body class="bg-gray-900 text-white">
-         <canvas id="candlestickFundo" class="fixed inset-0 z-0 opacity-20"></canvas>
-         <nav class="bg-blue-800 p-4 z-10 relative">
-             <ul class="flex space-x-6 justify-center">
-                 <li><a href="/" class="hover:text-blue-300">Início</a></li>
-                 <li><a href="/quem_somos" class="hover:text-blue-300">Quem Somos</a></li>
-                 <li><a href="/planos" class="hover:text-blue-300">Planos</a></li>
-                 {% if session.usuario_id %}
-                     <li><a href="/dashboard" class="hover:text-blue-300">Dashboard</a></li>
-                     <li><a href="/logout" class="hover:text-blue-300">Sair</a></li>
-                 {% else %}
-                     <li><a href="/login" class="hover:text-blue-300">Login</a></li>
-                     <li><a href="/cadastro" class="hover:text-blue-300">Cadastro</a></li>
-                 {% endif %}
-             </ul>
-         </nav>
-         <main class="container mx-auto p-6 z-10 relative">
-             {% block conteudo %}{% endblock %}
-         </main>
-         <script src="{{ url_for('static', filename='js/candlestick.js') }}"></script>
-     </body>
-     </html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KuberaTrades</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .nav-item:hover .nav-icon {
+            transform: scale(1.2);
+            transition: transform 0.3s ease;
+        }
+        .nav-item:hover .nav-text {
+            color: #ffd700;
+            transition: color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <canvas id="candlestickFundo" class="fixed inset-0 z-0 opacity-20"></canvas>
+    <nav class="bg-gradient-to-r from-blue-900 to-blue-700 p-4 z-10 relative shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-yellow-400">KuberaTrades</div>
+            <ul class="flex space-x-8">
+                <li class="nav-item flex items-center">
+                    <i class="fa-solid fa-home nav-icon mr-2"></i>
+                    <a href="/" class="nav-text hover:text-yellow-400 transition-colors">Início</a>
+                </li>
+                <li class="nav-item flex items-center">
+                    <i class="fa-solid fa-users nav-icon mr-2"></i>
+                    <a href="/quem_somos" class="nav-text hover:text-yellow-400 transition-colors">Quem Somos</a>
+                </li>
+                <li class="nav-item flex items-center">
+                    <i class="fa-solid fa-chart-line nav-icon mr-2"></i>
+                    <a href="/planos" class="nav-text hover:text-yellow-400 transition-colors">Planos</a>
+                </li>
+                {% if session.usuario_id %}
+                    <li class="nav-item flex items-center">
+                        <i class="fa-solid fa-tachometer-alt nav-icon mr-2"></i>
+                        <a href="/dashboard" class="nav-text hover:text-yellow-400 transition-colors">Dashboard</a>
+                    </li>
+                    <li class="nav-item flex items-center">
+                        <i class="fa-solid fa-sign-out-alt nav-icon mr-2"></i>
+                        <a href="/logout" class="nav-text hover:text-yellow-400 transition-colors">Sair</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item flex items-center">
+                        <i class="fa-solid fa-sign-in-alt nav-icon mr-2"></i>
+                        <a href="/login" class="nav-text hover:text-yellow-400 transition-colors">Login</a>
+                    </li>
+                    <li class="nav-item flex items-center">
+                        <i class="fa-solid fa-user-plus nav-icon mr-2"></i>
+                        <a href="/cadastro" class="nav-text hover:text-yellow-400 transition-colors">Cadastro</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <main class="container mx-auto p-6 z-10 relative">
+        {% block conteudo %}{% endblock %}
+    </main>
+    <script src="{{ url_for('static', filename='js/candlestick.js') }}"></script>
+</body>
+</html>

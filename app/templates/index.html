@@ -1,5 +1,20 @@
 {% extends "base.html" %}
-     {% block conteudo %}
-     <h1 class="text-4xl font-bold text-center mb-6">Bem-vindo ao KuberaTrades</h1>
-     <p class="text-lg text-center">Soluções automatizadas para trading no mercado financeiro.</p>
-     {% endblock %}
+{% block conteudo %}
+<div class="text-center">
+    <h1 class="text-5xl font-bold mb-6 text-yellow-400">KuberaTrades</h1>
+    <p class="text-xl mb-8">Soluções automatizadas para trading no mercado financeiro. Maximize seus lucros com nossos robôs de trading para MetaTrader 5.</p>
+    <div class="grid grid-cols-2 gap-6 mb-8">
+        <div class="bg-blue-800 p-6 rounded-lg shadow-lg">
+            <i class="fa-solid fa-chart-line text-4xl text-yellow-400 mb-4"></i>
+            <h2 class="text-2xl font-bold mb-2">Análise de Mercado</h2>
+            <p>Nossos robôs utilizam algoritmos avançados para identificar as melhores oportunidades de trading.</p>
+        </div>
+        <div class="bg-blue-800 p-6 rounded-lg shadow-lg">
+            <i class="fa-solid fa-robot text-4xl text-yellow-400 mb-4"></i>
+            <h2 class="text-2xl font-bold mb-2">Trading Automatizado</h2>
+            <p>Execute trades 24/7 com precisão e sem emoções, diretamente no MetaTrader 5.</p>
+        </div>
+    </div>
+    <a href="/planos" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-3 px-6 rounded-lg text-lg">Conheça Nossos Planos</a>
+</div>
+{% endblock %}

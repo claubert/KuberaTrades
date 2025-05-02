@@ -6,11 +6,11 @@ def criar_app():
     app = Flask(__name__)
     app.config.from_object('config')
 
-    # Configurar MySQL
+      # Configurar MySQL
     mysql = MySQL(app)
     app.mysql = mysql
 
-    # Registrar rotas
+      # Registrar rotas
     configurar_rotas(app)
 
     return app
