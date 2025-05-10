@@ -32,10 +32,23 @@ def configurar_rotas(app):
             usuario = verificar_usuario(nome_usuario, senha)
             if usuario:
                 session['usuario_id'] = usuario[0]
-                if 'tipo_plano' in session:
-                    criar_plano(usuario[0], session['tipo_plano'])
-                    session.pop('tipo_plano')
-                return redirect(url_for('dashboard'))
+                # Verificar se o usuário tem um plano ativo
+                cursor = app.mysql.connection.cursor()
+                cursor.execute(
+                    "SELECT id FROM planos WHERE usuario_id = %s AND data_fim > %s",
+                    (usuario[0], datetime.now())
+                )
+                plano = cursor.fetchone()
+                cursor.close()
+                if plano:
+                    # Se o usuário já tem um plano ativo, redireciona para o dashboard
+                    if 'tipo_plano' in session:
+                        criar_plano(usuario[0], session['tipo_plano'])
+                        session.pop('tipo_plano')
+                    return redirect(url_for('dashboard'))
+                else:
+                    # Se não tem plano, redireciona para a página de planos
+                    return redirect(url_for('planos'))
             return render_template('login.html', erro="Credenciais inválidas")
         return render_template('login.html')
 
