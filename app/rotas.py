@@ -3,6 +3,7 @@ from app.modelos import criar_usuario, verificar_usuario, criar_plano
 import mercadopago
 from datetime import datetime
 import requests
+import sys
 
 def configurar_rotas(app):
     sdk = mercadopago.SDK("SEU_ACCESS_TOKEN_MERCADOPAGO")
@@ -41,6 +42,16 @@ def configurar_rotas(app):
     @app.route('/cadastro', methods=['GET', 'POST'])
     def cadastro():
         if request.method == 'POST':
+            # Testar conexão com MySQL
+            try:
+                cursor = app.mysql.connection.cursor()
+                cursor.execute("SELECT 1")
+                print("Conexão com MySQL bem-sucedida!", file=sys.stderr, flush=True)
+                cursor.close()
+            except Exception as e:
+                print(f"Erro de conexão com MySQL: {str(e)}", file=sys.stderr, flush=True)
+                return render_template('cadastro.html', erro=f"Erro de conexão com MySQL: {str(e)}")
+
             nome_completo = request.form['nome_completo']
             cpf = request.form['cpf']
             cep = request.form['cep']
@@ -81,7 +92,8 @@ def configurar_rotas(app):
         tipo_plano = request.form['tipo_plano']
         valor = {'mensal': 100, 'semestral': 500, 'anual': 900}[tipo_plano]
         preferencia = {"items": [{"title": f"Plano {tipo_plano}", "quantity": 1, "unit_price": valor}],
-            "external_reference": str(session.get('usuario_id', '')),"metadata": {"tipo_plano": tipo_plano}}
+            "external_reference": str(session.get('usuario_id', '')),"metadata": {"tipo_plano": tipo_plano}
+        }
         resultado = sdk.preference().create(preferencia)
         return redirect(resultado['response']['init_point'])
 
