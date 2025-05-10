@@ -2,13 +2,12 @@ from flask import current_app
 import hashlib
 from datetime import datetime, timedelta
 import re
+import sys
 
 def validar_cpf(cpf):
-    # Remove pontos e traços
     cpf = re.sub(r'\D', '', cpf)
     if len(cpf) != 11 or not cpf.isdigit():
         return False
-    # Validação dos dígitos verificadores
     total = 0
     for i in range(9):
         total += int(cpf[i]) * (10 - i)
@@ -34,9 +33,10 @@ def criar_usuario(nome_completo, cpf, cep, endereco, nome_usuario, email, senha)
             (nome_completo, cpf, cep, endereco, nome_usuario, email, senha_hash)
         )
         current_app.mysql.connection.commit()
+        print(f"Usuário {nome_usuario} cadastrado com sucesso! ID: {cursor.lastrowid}", file=sys.stderr, flush=True)
     except Exception as e:
         current_app.mysql.connection.rollback()
-        print(f"Erro ao inserir usuário: {str(e)}")  # Adicionado para debug
+        print(f"Erro ao inserir usuário: {str(e)}", file=sys.stderr, flush=True)
         raise
     finally:
         cursor.close()

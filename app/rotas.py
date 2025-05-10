@@ -5,7 +5,7 @@ from datetime import datetime
 import requests
 
 def configurar_rotas(app):
-    sdk = mercadopago.SDK("SEU_ACCESS_TOKEN_MERCADOPAGO")  # Substitua pelo token
+    sdk = mercadopago.SDK("SEU_ACCESS_TOKEN_MERCADOPAGO")
 
     @app.route('/')
     def index():
@@ -57,7 +57,7 @@ def configurar_rotas(app):
             except ValueError as e:
                 return render_template('cadastro.html', erro=str(e))
             except Exception as e:
-                return render_template('cadastro.html', erro="Erro ao cadastrar. Tente novamente.")
+                return render_template('cadastro.html', erro=f"Erro ao cadastrar: {str(e)}")
         return render_template('cadastro.html')
 
     @app.route('/dashboard')
@@ -81,8 +81,7 @@ def configurar_rotas(app):
         tipo_plano = request.form['tipo_plano']
         valor = {'mensal': 100, 'semestral': 500, 'anual': 900}[tipo_plano]
         preferencia = {"items": [{"title": f"Plano {tipo_plano}", "quantity": 1, "unit_price": valor}],
-            "external_reference": str(session.get('usuario_id', '')),"metadata": {"tipo_plano": tipo_plano}
-        }
+            "external_reference": str(session.get('usuario_id', '')),"metadata": {"tipo_plano": tipo_plano}}
         resultado = sdk.preference().create(preferencia)
         return redirect(resultado['response']['init_point'])
 
