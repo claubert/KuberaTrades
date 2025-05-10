@@ -28,12 +28,18 @@ def criar_usuario(nome_completo, cpf, cep, endereco, nome_usuario, email, senha)
         raise ValueError("CPF inválido")
     senha_hash = hashlib.sha256(senha.encode()).hexdigest()
     cursor = current_app.mysql.connection.cursor()
-    cursor.execute(
-        "INSERT INTO usuarios (nome_completo, cpf, cep, endereco, nome_usuario, email, senha) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-        (nome_completo, cpf, cep, endereco, nome_usuario, email, senha_hash)
-    )
-    current_app.mysql.connection.commit()
-    cursor.close()
+    try:
+        cursor.execute(
+            "INSERT INTO usuarios (nome_completo, cpf, cep, endereco, nome_usuario, email, senha) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (nome_completo, cpf, cep, endereco, nome_usuario, email, senha_hash)
+        )
+        current_app.mysql.connection.commit()
+    except Exception as e:
+        current_app.mysql.connection.rollback()
+        print(f"Erro ao inserir usuário: {str(e)}")  # Adicionado para debug
+        raise
+    finally:
+        cursor.close()
 
 def verificar_usuario(nome_usuario, senha):
     senha_hash = hashlib.sha256(senha.encode()).hexdigest()
